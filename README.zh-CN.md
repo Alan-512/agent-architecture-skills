@@ -104,6 +104,16 @@ bash scripts/install.sh project-claude /path/to/your/repo
 
 这会把技能复制到 `/path/to/your/repo/.claude/skills`。
 
+## 作为本地 Codex Plugin 使用
+
+```bash
+bash scripts/install-plugin.sh
+```
+
+这个脚本会把 plugin 安装到 `~/plugins/agent-architecture-skills`，并创建或更新 `~/.agents/plugins/marketplace.json`，让 Codex 以本地 plugin 的方式发现它。
+
+安装完成后，需要重启 Codex 才能加载新的本地 plugin。
+
 ## 手动安装
 
 如果你不想用脚本，也可以手动把 `skills/` 下面的 5 个目录复制到以下任一位置：
