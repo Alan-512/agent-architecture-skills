@@ -30,6 +30,7 @@
 | `agent-surface-and-adapters` | CLI / API / SDK / batch / remote 等入口如何共享同一内核 |
 | `multi-agent-architecture` | manager-worker、teammate、任务状态、生命周期、宿主承载 |
 | `agent-protocol-and-tooling` | tool registry、model/provider 边界、MCP/connectors、权限/策略、协议状态 |
+| `agent-state-and-persistence` | 写模型与读模型边界、持久化 owner、replay/recovery、projection 重建策略 |
 
 ## 推荐使用方式
 
@@ -44,6 +45,7 @@
 - turn loop / tool reinjection -> `agent-runtime-architecture`
 - CLI / API / SDK 边界 -> `agent-surface-and-adapters`
 - tool registry / provider / protocol -> `agent-protocol-and-tooling`
+- 写模型 / 读模型 / transcript 持久化 / recovery -> `agent-state-and-persistence`
 - manager-worker / swarm / 后台任务 -> `multi-agent-architecture`
 
 ## 示例
@@ -53,6 +55,7 @@
 - `agent-surface-and-adapters`： “How should CLI and API share one agent kernel?”
 - `multi-agent-architecture`： “How should a manager-worker system split task state and worker lifecycle?”
 - `agent-protocol-and-tooling`： “Where should provider clients, permission, timeout, retry, and concurrency live?”
+- `agent-state-and-persistence`： “Which state is the write model, which is a projection, and how should recovery rebuild read models?”
 
 更完整、可复用的示例放在 [examples/](./examples/README.md)。
 
@@ -75,6 +78,7 @@ agent-architecture-skills/
     agent-surface-and-adapters/
     multi-agent-architecture/
     agent-protocol-and-tooling/
+    agent-state-and-persistence/
 ```
 
 每个 skill 都包含自己的 `SKILL.md`，以及它依赖的 `references/` 辅助文件。
@@ -137,7 +141,7 @@ bash scripts/uninstall-plugin.sh
 
 ## 手动安装
 
-如果你不想用脚本，也可以手动把 `skills/` 下面的 5 个目录复制到以下任一位置：
+如果你不想用脚本，也可以手动把 `skills/` 下面的 skill 目录复制到以下任一位置：
 
 - `~/.agents/skills`
 - `<repo>/.agents/skills`
@@ -168,7 +172,7 @@ bash scripts/uninstall-plugin.sh
 
 ## 验证来源
 
-这套 skill 在一个真实的图像生成 agent 项目上做过架构验证，并经过多轮审查和修订后才整理成仓库。
+这套 skill 已经在多个真实 agent 项目上做过架构验证，包括图像生成、手机自动化和更完整的 agent 平台项目，并经过多轮审查和修订后才整理成仓库。
 
 ## 许可证
 

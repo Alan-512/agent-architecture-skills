@@ -15,7 +15,7 @@ Use this skill when the request:
 
 - designs a full agent platform from scratch
 - reviews or refactors an existing agent system across multiple domains
-- mixes runtime, surface, protocol/tooling, and multi-agent concerns in one conversation
+- mixes runtime, surface, protocol/tooling, state/persistence, and multi-agent concerns in one conversation
 - is broad or ambiguous enough that the correct first domain is not obvious
 - asks for one coherent architecture and phased design order instead of an isolated subsystem answer
 
@@ -35,11 +35,14 @@ For single-domain requests, hand off directly to the owning skill.
 Follow this order:
 
 1. Classify the task as `greenfield`, `review`, or `refactor`.
-2. Classify the impact domains: `runtime`, `surface`, `protocol`, `multi-agent`.
-3. If the request is single-domain, route out and stop acting as orchestrator.
-4. If the request is mixed-domain, select all relevant sub-skills using the routing matrix.
-5. Merge results using ownership boundaries, fixed priority, and deterministic section keys.
-6. Rewrite one final cross-domain conclusion, one merged risk picture, and one implementation order.
+2. For `review` or `refactor`, perform evidence-first intake before synthesis: repo inventory, primary entrypoints, durable-state artifacts, naming map, and explicit unknowns.
+3. Classify the impact domains: `runtime`, `surface`, `protocol`, `state`, `multi-agent`.
+4. For `review` or `refactor`, explicitly assess product scope and stage before recommending change: current surfaces, current scale, deployment style, user model, and whether the system is intentionally CLI-first, single-process, or research-grade.
+5. Record observed architecture separately from target recommendations whenever the task is `review` or `refactor`.
+6. If the request is single-domain, route out and stop acting as orchestrator.
+7. If the request is mixed-domain, select all relevant sub-skills using the routing matrix.
+8. Merge results using ownership boundaries, fixed priority, and deterministic section keys.
+9. Rewrite one final cross-domain conclusion, one merged risk picture, one proportional recommendation, and one implementation order.
 
 Never answer a cross-cutting request by improvising a new all-in-one architecture taxonomy. Reuse the existing domain boundaries.
 
@@ -49,13 +52,30 @@ Always produce:
 
 - `Design Conclusion`
 - `Layered Diagram`
+- `Observed Architecture`
+- `Evidence`
+- `Architecture Fit Verdict`
+- `Tradeoff Assessment`
 - `Responsibility Table`
 - `Connection Table`
+- `Unknowns / Confidence`
 - `Constraints`
 - `Anti-pattern Checks`
 - `Implementation Order`
 
 Produce `Dynamic Flow` only when a cross-domain interaction genuinely needs it. Produce `Migration / Compatibility / Rollback Plan` whenever the task is `review` or `refactor`.
+
+For `review` and `refactor`, explicitly force these cross-domain decisions into the final result whenever they apply:
+
+- `Truth Source Decision`
+- `Read-model versus Write-model Decision`
+- `Write-model Mutation Owner Decision`
+- `Read-model Recovery Strategy Decision`
+- `Transcript Role Decision`
+- `Reverse Command Contract`
+- `Event / Side-effect Boundary Decision`
+- `Change Recommendation Level` (`keep as-is`, `light refactor`, or `major refactor`)
+- `Present-risk versus Future-risk Classification`
 
 Use [routing-matrix.md](./references/routing-matrix.md) for dispatch, [output-contract.md](./references/output-contract.md) for merge rules, and [borderline-nouns.md](./references/borderline-nouns.md) for the most common ownership confusions.
 
@@ -68,6 +88,14 @@ At minimum, check for these failures:
 - the merged result keeps duplicate modules or duplicate lifecycle concepts under different names
 - implementation order ignores domain dependencies and mixes later adapters before earlier kernel or protocol decisions
 - refactor output gives an ideal target state but no migration, compatibility, or rollback path
+- the final result leaves execution truth, transcript role, or read-model versus write-model boundaries undecided even though multiple domains depend on them
+- the final result leaves write-model mutation ownership or reverse-command ownership undecided even though cancel, resume, retry, or resolution paths exist
+- the final result leaves read-model recovery ambiguous between rebuild-from-write-model, persisted projection, or replayable event log
+- the suggested event list and the formal event contract drift apart, leaving intermediate states or recovery paths undefined
+- a review result jumps to recommendations without showing observed structure, primary evidence, unknowns, or confidence
+- an orchestrator or application layer is introduced without a neutral event or side-effect contract across domains
+- the result treats every seam as a defect instead of distinguishing acceptable scope-bound tradeoffs from blockers
+- the recommendation strength is disproportionate to the current product scope, stage, and operating model
 
 If any of these fail, the final result cannot be `pass`.
 
@@ -76,6 +104,7 @@ If any of these fail, the final result cannot be `pass`.
 - To `agent-runtime-architecture` for single-agent kernel definition.
 - To `agent-surface-and-adapters` for session, transcript, and surface adapter design.
 - To `agent-protocol-and-tooling` for tool systems, protocol clients, permission policy, and normalized state.
+- To `agent-state-and-persistence` for write models, read models, persistence contracts, replayability, recovery, queue or event-log semantics, and durable-state ownership.
 - To `multi-agent-architecture` for task lifecycle, agent lifecycle, orchestration, and host placement.
 
 When multiple domains remain active, stay in orchestrator mode and merge instead of delegating the final answer away.

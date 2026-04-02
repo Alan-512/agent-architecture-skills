@@ -34,11 +34,11 @@ For mixed-domain requests, hand off to `agent-architecture-orchestrator`.
 
 Follow this order:
 
-1. Enumerate the surfaces in scope and the user-facing contract for each one.
+1. For `review` or `refactor`, start with evidence-first intake: enumerate real surfaces, observed adapter responsibilities, current product scope, durable transcript/session artifacts, and unknowns before proposing changes.
 2. Extract the shared kernel boundary and remove any surface-specific runtime logic from it.
-3. Define input adapters, output adapters, session ownership, and transcript ownership.
+3. Define input adapters, output adapters, session ownership, transcript ownership, and whether transcript is a projection, an audit log, or a domain record.
 4. Define streaming-event shape versus final-result shape for every surface.
-5. Verify that adding a new surface would not require rewriting the kernel.
+5. Verify that adding a new surface would not require rewriting the kernel or rehosting execution semantics in the adapter.
 
 Never invent a generic “application layer” to hide boundary confusion. Name the owner explicitly: runtime, surface, protocol, or multi-agent.
 
@@ -47,8 +47,13 @@ Never invent a generic “application layer” to hide boundary confusion. Name 
 Always produce:
 
 - `Design Conclusion`
+- `Observed Surfaces`
+- `Evidence`
+- `Architecture Fit Verdict`
+- `Tradeoff Assessment`
 - `Responsibility Table`
 - `Connection Table`
+- `Unknowns / Confidence`
 - `Constraints`
 - `Anti-pattern Checks`
 - `Implementation Order`
@@ -68,6 +73,11 @@ At minimum, check for these failures:
 - streaming output is treated as business logic instead of a surface concern
 - final result format is coupled to one presentation surface such as terminal text or HTTP response bodies
 - adapters import connector internals or task-lifecycle rules that belong to other domains
+- transcript role is ambiguous and silently mixes projection, audit, and domain semantics
+- a UI or client-side state machine still owns retry, confirmation, or progression semantics that belong to runtime
+- a surface directly advances persisted lifecycle state instead of projecting or submitting commands through the owning domain
+- one user action is overloaded to mean both a domain command and a projection-only cleanup action without separate contracts
+- a CLI-first or single-surface product is judged by multi-surface standards without evidence that expansion is actually in scope
 
 If any of these fail, the final result cannot be `pass`.
 
@@ -75,6 +85,7 @@ If any of these fail, the final result cannot be `pass`.
 
 - To `agent-runtime-architecture` when the design still lacks a stable kernel boundary or turn semantics.
 - To `agent-protocol-and-tooling` when permission policy, tool descriptors, protocol state, or reconnect behavior remain undefined.
+- To `agent-state-and-persistence` when transcript durability, projection persistence, recovery strategy, or snapshot-vs-rebuild tradeoffs remain undefined.
 - To `multi-agent-architecture` when tasks, teammates, or background execution start affecting the design.
 - To `agent-architecture-orchestrator` when two or more of the above are simultaneously in scope.
 

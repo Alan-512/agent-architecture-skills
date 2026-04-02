@@ -36,11 +36,12 @@ For mixed-domain requests, hand off to `agent-architecture-orchestrator`.
 
 Follow this order:
 
-1. Define why multiple agents exist: decomposition, parallelism, isolation, background execution, or role specialization.
-2. Split the design into four planes: orchestration, execution, task state, and host or backend.
-3. Define task lifecycle separately from worker lifecycle.
-4. Define inter-agent communication, result handoff, heartbeat, cancellation, and permission-request routing.
-5. Define host placement and failure boundaries without moving orchestration semantics into infrastructure.
+1. For `review` or `refactor`, start with evidence-first intake: inventory the actual task model, worker topology, current scale and parallelism needs, durable task artifacts, and unknowns before proposing changes.
+2. Define why multiple agents exist: decomposition, parallelism, isolation, background execution, or role specialization.
+3. Split the design into four planes: orchestration, execution, task state, and host or backend.
+4. Define task lifecycle separately from worker lifecycle.
+5. Define inter-agent communication, result handoff, heartbeat, cancellation, and permission-request routing.
+6. Define host placement and failure boundaries without moving orchestration semantics into infrastructure.
 
 Never collapse task state, agent lifecycle, and permission decision into one generic manager layer.
 
@@ -49,8 +50,13 @@ Never collapse task state, agent lifecycle, and permission decision into one gen
 Always produce:
 
 - `Design Conclusion`
+- `Observed Multi-agent Topology`
+- `Evidence`
+- `Architecture Fit Verdict`
+- `Tradeoff Assessment`
 - `Responsibility Table`
 - `Connection Table`
+- `Unknowns / Confidence`
 - `Constraints`
 - `Anti-pattern Checks`
 - `Implementation Order`
@@ -70,6 +76,7 @@ At minimum, check for these failures:
 - host placement decisions are mixed into orchestration semantics
 - result aggregation is pushed down into workers instead of orchestration
 - permission approval is decided by the manager instead of being routed to the owner policy layer
+- a single-agent or lightly parallel system is pushed into manager-worker abstractions without evidence that the current product actually needs them
 
 If any of these fail, the final result cannot be `pass`.
 
@@ -78,6 +85,7 @@ If any of these fail, the final result cannot be `pass`.
 - To `agent-runtime-architecture` when worker kernels or turn semantics are still undefined.
 - To `agent-protocol-and-tooling` when permission evaluation, tool concurrency, connector state, or remote execution protocol rules are still undefined.
 - To `agent-surface-and-adapters` when session ownership, transcript ownership, or user-facing output surfaces are still unclear.
+- To `agent-state-and-persistence` when durable task state, checkpointing, replayability, queue semantics, or recovery contracts are still undefined.
 - To `agent-architecture-orchestrator` when two or more of the above are simultaneously in scope.
 
 ## Trigger Examples

@@ -37,11 +37,12 @@ For mixed-domain requests, hand off to `agent-architecture-orchestrator`.
 
 Follow this order:
 
-1. Define the internal capability surfaces the runtime should consume.
-2. Separate catalog, permission and policy, protocol clients, execution orchestration, and normalized state.
-3. Define how external capabilities are adapted into the internal models.
-4. Define per-call execution policy: timeout, retry, cancellation, concurrency, idempotency, fallback, and error classification.
-5. Define reconnect, dedup, and state-reconciliation rules without leaking protocol objects upward.
+1. For `review` or `refactor`, start with evidence-first intake: inventory the real capability layers, protocol clients, state stores, current product scope, and unknowns before proposing changes.
+2. Define the internal capability surfaces the runtime should consume.
+3. Separate catalog, permission and policy, protocol clients, execution orchestration, and normalized state.
+4. Define how external capabilities are adapted into the internal models.
+5. Define per-call execution policy: timeout, retry, cancellation, concurrency, idempotency, fallback, and error classification.
+6. Define reconnect, dedup, and state-reconciliation rules without leaking protocol objects upward.
 
 Never let a single “tool service” own tool definition, permission, protocol transport, and execution semantics at the same time.
 
@@ -50,8 +51,13 @@ Never let a single “tool service” own tool definition, permission, protocol 
 Always produce:
 
 - `Design Conclusion`
+- `Observed Capability Architecture`
+- `Evidence`
+- `Architecture Fit Verdict`
+- `Tradeoff Assessment`
 - `Responsibility Table`
 - `Connection Table`
+- `Unknowns / Confidence`
 - `Constraints`
 - `Anti-pattern Checks`
 - `Implementation Order`
@@ -72,6 +78,7 @@ At minimum, check for these failures:
 - normalized state only covers catalog metadata but not execution or connection state
 - reconnect, dedup, and retry logic are split across multiple unrelated layers with no single owner
 - model/provider client behavior has no explicit owner
+- a provider client is labeled over-coupled without distinguishing acceptable single-surface UX shortcuts from cross-surface architecture debt
 
 If any of these fail, the final result cannot be `pass`.
 
@@ -79,6 +86,7 @@ If any of these fail, the final result cannot be `pass`.
 
 - To `agent-runtime-architecture` when the runtime still lacks a stable internal capability-consumption interface or tool-result reinjection semantics.
 - To `agent-surface-and-adapters` when tool state must still be projected into CLI, API, SDK, or remote surfaces with unclear output or transcript ownership.
+- To `agent-state-and-persistence` when normalized-state durability, replay, sync checkpoints, or long-lived capability state contracts remain undefined.
 - To `multi-agent-architecture` when permission requests, remote executors, or tool workers start affecting task lifecycle or orchestration design.
 - To `agent-architecture-orchestrator` when two or more of the above are simultaneously in scope.
 

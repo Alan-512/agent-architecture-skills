@@ -1,6 +1,6 @@
 # Examples
 
-This directory contains example prompts and expected usage patterns for the five core skills in this repository.
+This directory contains example prompts and expected usage patterns for the core skills in this repository.
 
 Use these examples when:
 
@@ -20,6 +20,8 @@ Use these examples when:
   Manager-worker and task-state design using `multi-agent-architecture`
 - [05-tooling-protocol-boundaries.md](./05-tooling-protocol-boundaries.md)
   Provider, tool registry, and protocol boundaries using `agent-protocol-and-tooling`
+- [06-state-and-persistence.md](./06-state-and-persistence.md)
+  Write model, read model, transcript role, and recovery strategy using `agent-state-and-persistence`
 
 ## How To Read These Files
 

@@ -19,6 +19,7 @@ Map the request to one or more of:
 - `runtime`
 - `surface`
 - `protocol`
+- `state`
 - `multi-agent`
 
 If two or more domains are active, stay in orchestrator mode.
@@ -30,14 +31,19 @@ If two or more domains are active, stay in orchestrator mode.
 | runtime only | `agent-runtime-architecture` | runtime | Single domain; route directly |
 | surface only | `agent-surface-and-adapters` | surface | Single domain; route directly |
 | protocol only | `agent-protocol-and-tooling` | protocol | Single domain; route directly |
+| state only | `agent-state-and-persistence` | state | Single domain; route directly |
 | multi-agent only | `multi-agent-architecture` | multi-agent | Single domain; route directly |
 | runtime + surface | runtime + surface | runtime -> surface -> orchestrator | Define the kernel before adapters |
 | runtime + protocol | protocol + runtime | protocol -> runtime -> orchestrator | Define the internal capability surface before kernel consumption |
+| runtime + state | runtime + state | runtime -> state -> orchestrator | Define the execution model before persistence and recovery contracts |
 | runtime + multi-agent | runtime + multi-agent | runtime -> multi-agent -> orchestrator | Define single-agent semantics before multi-agent reuse |
 | surface + protocol | protocol + surface | protocol -> surface -> orchestrator | Define protocol state before outward projection |
+| surface + state | state + surface | state -> surface -> orchestrator | Define transcript or projection durability before UI projection |
 | surface + multi-agent | multi-agent + surface | multi-agent -> surface -> orchestrator | Define task semantics before surface exposure |
+| protocol + state | protocol + state | protocol -> state -> orchestrator | Define protocol state before durability and recovery rules |
 | protocol + multi-agent | protocol + multi-agent | protocol -> multi-agent -> orchestrator | Define permission and external capabilities before task orchestration |
-| three or more | all relevant domain skills | protocol -> runtime -> multi-agent -> surface -> orchestrator | Fixed order avoids duplicate definitions |
+| state + multi-agent | state + multi-agent | state -> multi-agent -> orchestrator | Define durable task or queue semantics before distributed orchestration |
+| three or more | all relevant domain skills | protocol -> runtime -> state -> multi-agent -> surface -> orchestrator | Fixed order avoids duplicate definitions |
 
 ## 4. Ambiguity Rule
 

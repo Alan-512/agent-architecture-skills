@@ -34,11 +34,12 @@ For mixed-domain requests, hand off to `agent-architecture-orchestrator`.
 
 Follow this order:
 
-1. Define the runtime scope and terminal result for one turn.
-2. Define canonical turn inputs, normalized message forms, and state transitions.
-3. Define the tool loop: trigger point, execution handoff, reinjection path, and failure handling.
-4. Define stop, continue, turn-level recovery, and budget rules.
-5. Draw the kernel boundary: what runtime owns, what adapters or protocol layers may only feed in.
+1. For `review` or `refactor`, start with evidence-first intake: identify the concrete runtime entrypoints, current loop owner, observed state transitions, current product scope, and unknowns before proposing changes.
+2. Define canonical commands and reverse commands for one turn, including cancel, resume, continue, or resolve-action paths when they exist.
+3. Define canonical turn inputs, normalized message forms, state transitions, the single execution truth source, and the single mutation owner for that write model.
+4. Define the tool loop: trigger point, execution handoff, reinjection path, and failure handling.
+5. Define stop, continue, turn-level recovery, budget rules, and the neutral event or result envelope runtime emits to side-effect owners.
+6. Draw the kernel boundary: what runtime owns, what adapters or protocol layers may only feed in.
 
 Never start from directory structure or helper functions. Start from state transitions.
 
@@ -47,8 +48,13 @@ Never start from directory structure or helper functions. Start from state trans
 Always produce:
 
 - `Design Conclusion`
+- `Observed Runtime`
+- `Evidence`
+- `Architecture Fit Verdict`
+- `Tradeoff Assessment`
 - `Responsibility Table`
 - `Connection Table`
+- `Unknowns / Confidence`
 - `Constraints`
 - `Anti-pattern Checks`
 - `Implementation Order`
@@ -68,6 +74,12 @@ At minimum, check for these failures:
 - tool results bypass runtime state and are written straight into adapters
 - turn-level stop or recovery rules are split across multiple layers
 - runtime owns transcript persistence or UI protocol details
+- multiple persisted lifecycle models claim to be the execution truth without an explicit write-model versus read-model split
+- the write model exists but mutation ownership is split between runtime, persistence handlers, adapters, or projections
+- transcript or message history quietly carries domain progression semantics without explicit ownership being declared
+- reverse commands such as cancel, resume, retry, or resolve-action exist in the product but are missing from the runtime contract
+- a new orchestrator or coordinator is extracted before runtime defines a neutral event or result envelope for side effects
+- a lightweight single-process or CLI-first runtime is treated as broken merely because it lacks abstractions needed only for future scale
 
 If any of these fail, the final result cannot be `pass`.
 
@@ -75,6 +87,7 @@ If any of these fail, the final result cannot be `pass`.
 
 - To `agent-surface-and-adapters` when the kernel must be exposed through CLI, API, SDK, or remote surfaces.
 - To `agent-protocol-and-tooling` when external tool descriptors, model/provider clients, permission policy, per-call timeout or retry policy, concurrency policy, or protocol state are still undefined.
+- To `agent-state-and-persistence` when durable state, replayability, snapshot persistence, queue or event-log semantics, or recovery contracts remain undefined.
 - To `multi-agent-architecture` when the design adds manager-worker, teammates, background tasks, or task lifecycle concerns.
 - To `agent-architecture-orchestrator` when two or more of the above are simultaneously in scope.
 
