@@ -60,8 +60,11 @@ Go directly to a domain skill when the problem is clearly isolated:
 
 ```text
 agent-architecture-skills/
+  .agents/plugins/marketplace.json
   README.md
   LICENSE
+  plugins/
+    agent-architecture-skills/
   scripts/
     install.sh
   skills/
@@ -73,6 +76,8 @@ agent-architecture-skills/
 ```
 
 Each skill ships with its own `SKILL.md` and any supporting `references/` files it needs.
+
+The repository now also includes a repo-local Codex plugin scaffold under `plugins/agent-architecture-skills/` plus `.agents/plugins/marketplace.json`, so the same skills can be packaged in the distribution model Codex prefers for reusable public integrations.
 
 ## Installation
 
@@ -126,6 +131,8 @@ As of April 2, 2026:
 - OpenAI recommends direct skill folders for local authoring and repo-scoped workflows. For reusable public distribution in Codex, plugins are the preferred packaging model.
 
 This repository currently ships direct skill folders for portability and local installation. If you want first-class reusable distribution in Codex, package these skills as a plugin next.
+
+This repository now includes that plugin-ready layout, while keeping the root `skills/` directory for direct installation.
 
 ## Design Principles
 

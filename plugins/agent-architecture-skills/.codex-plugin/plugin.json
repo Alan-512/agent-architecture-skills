@@ -1,0 +1,38 @@
+{
+  "name": "agent-architecture-skills",
+  "version": "0.1.0",
+  "description": "Reusable architecture skills for Codex and Claude Code agent system design, review, and refactor.",
+  "author": {
+    "name": "Alan-512",
+    "email": "39221413+Alan-512@users.noreply.github.com",
+    "url": "https://github.com/Alan-512"
+  },
+  "homepage": "https://github.com/Alan-512/agent-architecture-skills",
+  "repository": "https://github.com/Alan-512/agent-architecture-skills",
+  "license": "MIT",
+  "keywords": [
+    "agent-architecture",
+    "codex",
+    "claude-code",
+    "skills",
+    "multi-agent"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Architecture Skills",
+    "shortDescription": "Architecture skills for designing and reviewing agent systems.",
+    "longDescription": "A reusable skill set for Codex and Claude Code covering runtime kernels, surface adapters, protocol/tooling boundaries, and multi-agent orchestration.",
+    "developerName": "Alan-512",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/Alan-512/agent-architecture-skills",
+    "defaultPrompt": [
+      "Review the architecture of this agent platform end to end.",
+      "How should tool results be reinjected into the next turn?",
+      "How should a manager-worker system split task and worker state?"
+    ]
+  }
+}

@@ -50,9 +50,12 @@
 
 ```text
 agent-architecture-skills/
+  .agents/plugins/marketplace.json
   README.md
   README.zh-CN.md
   LICENSE
+  plugins/
+    agent-architecture-skills/
   scripts/
     install.sh
   skills/
@@ -64,6 +67,8 @@ agent-architecture-skills/
 ```
 
 每个 skill 都包含自己的 `SKILL.md`，以及它依赖的 `references/` 辅助文件。
+
+仓库现在也包含了一个 repo 内的 Codex plugin 骨架，位于 `plugins/agent-architecture-skills/`，并带有 `.agents/plugins/marketplace.json`。也就是说，这套 skill 现在同时支持“直接 skill 目录安装”和“Codex 推荐的 plugin 分发形态”。
 
 ## 安装方式
 
@@ -117,6 +122,8 @@ bash scripts/install.sh project-claude /path/to/your/repo
 - OpenAI 对 Codex 的公开可复用分发，更推荐用 plugin；直接 skill 目录更适合本地创作和 repo 内使用
 
 这个仓库当前仍以“直接 skill 目录”方式分发，优先保证可复制、可本地安装、可在仓库内直接使用。如果后续要更贴近 Codex 官方推荐分发形态，下一步应该把它打包成 plugin。
+
+现在仓库里已经补上了 plugin-ready 的目录结构，同时保留了根目录下的 `skills/` 作为直接安装入口。
 
 ## 设计原则
 

@@ -1,0 +1,20 @@
+{
+  "name": "agent-architecture-skills",
+  "interface": {
+    "displayName": "Agent Architecture Skills"
+  },
+  "plugins": [
+    {
+      "name": "agent-architecture-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/agent-architecture-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
