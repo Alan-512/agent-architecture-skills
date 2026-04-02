@@ -48,14 +48,14 @@ Never collapse task state, agent lifecycle, and permission decision into one gen
 
 Always produce:
 
-- `设计结论`
-- `模块职责表`
-- `关键连接表`
-- `设计约束`
-- `反模式检查`
-- `下一步实现顺序`
+- `Design Conclusion`
+- `Responsibility Table`
+- `Connection Table`
+- `Constraints`
+- `Anti-pattern Checks`
+- `Implementation Order`
 
-Usually produce both `分层图` and `状态流或时序图`. Prefer a `layered` overview plus either a `state-machine` for task and worker lifecycle or a `sequence` for manager-worker coordination.
+Usually produce both `Layered Diagram` and `Dynamic Flow`. Prefer a `layered` overview plus either a `state-machine` for task and worker lifecycle or a `sequence` for manager-worker coordination.
 
 When this result may later be merged by `agent-architecture-orchestrator`, emit the canonical section envelope, mark non-applicable sections as explicit `N/A`, and keep row or object provenance for mergeable sections.
 
@@ -82,14 +82,14 @@ If any of these fail, the final result cannot be `pass`.
 
 ## Trigger Examples
 
-- “manager-worker 多 agent 应该怎么拆”
-- “后台任务、并行 worker、结果汇总怎么分层”
-- “task state 和 worker lifecycle 应该放哪”
-- “teammate 之间怎么通信和交接结果”
+- “How should a manager-worker multi-agent system be decomposed?”
+- “How should background tasks, parallel workers, and result aggregation be layered?”
+- “Where should task state and worker lifecycle live?”
+- “How should teammates communicate and hand off results?”
 
 ## Not-this-skill Examples
 
-- “单 agent 的 query loop 怎么设计”
-- “MCP 权限、重连和工具并发怎么定”
-- “CLI、API 和 SDK 怎么共用一套 kernel”
-- “帮我设计整个 agent 平台架构”
+- “How should a single-agent query loop be designed?”
+- “How should MCP permission, reconnect, and tool concurrency be designed?”
+- “How should CLI, API, and SDK share one kernel?”
+- “Help me design an entire agent platform architecture”

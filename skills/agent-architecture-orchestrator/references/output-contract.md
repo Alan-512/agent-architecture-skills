@@ -44,25 +44,25 @@ Ownership still wins over priority when they disagree.
 
 Use these merge keys:
 
-- `模块职责表`: `模块`
-- `关键连接表`: `From + Relation + To`
-- `反模式检查`: `检查项`
-- `分层图`: `diagram_kind + scope`
-- `状态流或时序图`: `flow_kind + scope`
+- `Responsibility Table`: `Module`
+- `Connection Table`: `From + Relation + To`
+- `Anti-pattern Checks`: `Check`
+- `Layered Diagram`: `diagram_kind + scope`
+- `Dynamic Flow`: `flow_kind + scope`
 
 ## 4. Section Rules
 
 | Section | Merge rule |
 | --- | --- |
-| `设计结论` | orchestrator rewrites as one final conclusion |
-| `分层图` | dedupe by key, prefer owner or higher-priority source |
-| `模块职责表` | one row per module, owner wins field conflicts |
-| `关键连接表` | dedupe by key, keep higher-priority meaning and provenance |
-| `状态流或时序图` | dedupe by key, prefer owner or higher-priority source |
-| `设计约束` | dedupe and keep stricter constraints |
-| `反模式检查` | keep worst state: `fail > risk > pass` |
-| `迁移/兼容/回滚方案` | orchestrator rewrites one phased plan |
-| `下一步实现顺序` | orchestrator rewrites one dependency-aware order |
+| `Design Conclusion` | orchestrator rewrites as one final conclusion |
+| `Layered Diagram` | dedupe by key, prefer owner or higher-priority source |
+| `Responsibility Table` | one row per module, owner wins field conflicts |
+| `Connection Table` | dedupe by key, keep higher-priority meaning and provenance |
+| `Dynamic Flow` | dedupe by key, prefer owner or higher-priority source |
+| `Constraints` | dedupe and keep stricter constraints |
+| `Anti-pattern Checks` | keep worst state: `fail > risk > pass` |
+| `Migration / Compatibility / Rollback Plan` | orchestrator rewrites one phased plan |
+| `Implementation Order` | orchestrator rewrites one dependency-aware order |
 
 ## 5. Provenance Rule
 

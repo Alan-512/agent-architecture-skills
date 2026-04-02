@@ -49,14 +49,14 @@ Never let a single “tool service” own tool definition, permission, protocol 
 
 Always produce:
 
-- `设计结论`
-- `模块职责表`
-- `关键连接表`
-- `设计约束`
-- `反模式检查`
-- `下一步实现顺序`
+- `Design Conclusion`
+- `Responsibility Table`
+- `Connection Table`
+- `Constraints`
+- `Anti-pattern Checks`
+- `Implementation Order`
 
-Usually produce both `分层图` and `状态流或时序图`. Prefer a `layered` overview plus either a `sequence` for tool invocation flow or a `runtime-flow` for reconnect and execution orchestration.
+Usually produce both `Layered Diagram` and `Dynamic Flow`. Prefer a `layered` overview plus either a `sequence` for tool invocation flow or a `runtime-flow` for reconnect and execution orchestration.
 
 When this result may later be merged by `agent-architecture-orchestrator`, emit the canonical section envelope, mark non-applicable sections as explicit `N/A`, and keep row or object provenance for mergeable sections.
 
@@ -84,14 +84,14 @@ If any of these fail, the final result cannot be `pass`.
 
 ## Trigger Examples
 
-- “内置工具和 MCP/connector 怎么统一成一套 tool surface”
-- “provider client、permission、timeout、retry、并发应该放在哪层”
-- “protocol client、registry、execution orchestrator 应该怎么拆”
-- “为什么我们的工具系统越来越依赖外部协议细节”
+- “How do we unify builtin tools and MCP/connectors into one tool surface?”
+- “Where should provider clients, permission, timeout, retry, and concurrency live?”
+- “How should protocol clients, the registry, and the execution orchestrator be split?”
+- “Why is our tool system getting too dependent on external protocol details?”
 
 ## Not-this-skill Examples
 
-- “单 agent 的 tool_result 应该怎么回灌到下一轮”
-- “CLI、API 和 batch 怎么共用一套 kernel”
-- “manager-worker 和后台任务怎么拆”
-- “帮我设计整个 agent 平台架构”
+- “How should a single-agent `tool_result` be reinjected into the next turn?”
+- “How should CLI, API, and batch share one kernel?”
+- “How should manager-worker and background tasks be decomposed?”
+- “Help me design an entire agent platform architecture.”

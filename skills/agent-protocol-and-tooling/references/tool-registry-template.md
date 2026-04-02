@@ -2,57 +2,57 @@
 
 Use this template when `agent-protocol-and-tooling` is active.
 
-## 1. 设计结论
+## 1. Design Conclusion
 
-- 用一句话定义 internal capability surface 与外部协议面的关系。
-- 明确本轮只讨论 registry、provider/tool clients、policy、protocol edge、execution orchestration、normalized state，不重写 runtime 或 surface owner。
+- Define in one sentence how the internal capability surface relates to external protocol surfaces.
+- Make it explicit that this pass only covers the registry, provider/tool clients, policy, protocol edge, execution orchestration, and normalized state. Do not redefine runtime or surface ownership.
 
-## 2. 模块职责表
+## 2. Responsibility Table
 
-至少包含这些模块：
+Include at least these modules:
 
-| 模块 | 主要职责 | 明确不负责 |
+| Module | Primary Responsibility | Explicitly Not Responsible For |
 | --- | --- | --- |
-| Tool Registry | 维护统一工具目录和 capability metadata | 真正执行调用、决定权限 |
-| Provider Client Layer | 处理模型 provider 的握手、流式接收、fallback、provider-side reconnect | 定义 turn-level recovery |
-| Permission / Policy Engine | 决定是否允许执行、参数级约束、审批与审计 | 维护协议连接 |
-| Protocol Clients | 处理 MCP/connector/remote executor 的握手、连接、重连、心跳 | 定义业务权限或 tool catalog |
-| Execution Orchestrator | 组织一次外部能力调用，处理 per-call timeout/retry/cancel/concurrency | 保存长期 catalog 真相源 |
-| Normalized State Store | 统一 catalog、连接状态、执行状态与 reconcile 结果 | 直接向 runtime 暴露协议对象 |
+| Tool Registry | Maintain a unified tool catalog and capability metadata | Direct execution or permission decisions |
+| Provider Client Layer | Handle model provider handshake, streaming, fallback, and provider-side reconnect | Turn-level recovery |
+| Permission / Policy Engine | Decide whether execution is allowed, including parameter-level constraints, approval, and audit | Protocol connection management |
+| Protocol Clients | Handle MCP/connector/remote-executor handshake, connection, reconnect, and heartbeat | Business permission rules or tool catalog ownership |
+| Execution Orchestrator | Organize one external capability call and handle per-call timeout/retry/cancel/concurrency | Long-lived catalog truth |
+| Normalized State Store | Unify catalog, connection state, execution state, and reconciliation results | Exposing raw protocol objects directly to runtime |
 
 ## 3. Layer Matrix
 
-至少拆出这些层：
+Split at least these layers:
 
-| Layer | 主要问题 | 典型模块 | 备注 |
+| Layer | Primary Concern | Typical Modules | Notes |
 | --- | --- | --- | --- |
-| catalog | 工具定义、schema、metadata、可见性 | registry |  |
-| policy | permission、approval、风险与审计 | policy engine |  |
-| protocol edge | 协议握手、连接、重连、流式接收 | MCP client、connector client、provider clients |  |
-| execution | 单次调用的编排和调度 | execution orchestrator |  |
-| normalized state | catalog、连接、执行态的统一模型 | state store |  |
+| catalog | Tool definitions, schema, metadata, visibility | registry |  |
+| policy | permission, approval, risk, audit | policy engine |  |
+| protocol edge | protocol handshake, connection, reconnect, streaming receive | MCP client, connector client, provider clients |  |
+| execution | one-call orchestration and scheduling | execution orchestrator |  |
+| normalized state | unified model for catalog, connection, and execution state | state store |  |
 
-## 4. 关键连接表
+## 4. Connection Table
 
-至少覆盖：
+Cover at least:
 
-| From | Relation | To | 含义 | 冲突风险 |
+| From | Relation | To | Meaning | Conflict Risk |
 | --- | --- | --- | --- | --- |
-| Tool Registry | describes | Execution Orchestrator | 执行层消费统一 capability metadata | high |
-| Permission / Policy Engine | gates | Execution Orchestrator | policy 决定能否调，而不是 client 或 runtime | high |
-| Protocol Clients | adapts_into | Normalized State Store | 外部协议对象先被归一化 | high |
-| Provider Client Layer | streams_into | Normalized State Store | provider 流式状态先被归一化 | medium |
-| Execution Orchestrator | invokes_via | Protocol Clients | 编排层通过 client 执行，而不直接操作协议细节 | medium |
-| Normalized State Store | exposes | Internal Tool Surface | runtime 只能看到归一后的工具能力和状态 | medium |
+| Tool Registry | describes | Execution Orchestrator | The execution layer consumes unified capability metadata | high |
+| Permission / Policy Engine | gates | Execution Orchestrator | Policy decides whether a call is allowed, not the client or runtime | high |
+| Protocol Clients | adapts_into | Normalized State Store | External protocol objects are normalized first | high |
+| Provider Client Layer | streams_into | Normalized State Store | Provider streaming state is normalized first | medium |
+| Execution Orchestrator | invokes_via | Protocol Clients | The orchestrator executes through clients without manipulating protocol details directly | medium |
+| Normalized State Store | exposes | Internal Tool Surface | Runtime only sees normalized tool capabilities and state | medium |
 
-## 5. 状态流或时序图
+## 5. Dynamic Flow
 
-优先输出：
+Preferred outputs:
 
-- `sequence`：runtime -> registry/policy -> execution -> protocol/provider client -> result
-- `runtime-flow`：如果重点是 reconnect、dedup、state reconcile
+- `sequence`: runtime -> registry/policy -> execution -> protocol/provider client -> result
+- `runtime-flow`: when reconnect, dedup, or state reconciliation is the main focus
 
-最小链路建议：
+Suggested minimal path:
 
 - tool discovery
 - permission check
@@ -61,39 +61,39 @@ Use this template when `agent-protocol-and-tooling` is active.
 - normalized state update
 - result envelope
 
-## 6. 设计约束
+## 6. Constraints
 
-至少回答：
+Answer at least:
 
-- internal capability surface 的最小接口是什么
-- permission policy 是否独立于 protocol client
-- execution orchestration 是否独立于 registry 和 client
-- model/provider edge 是否有明确 owner
-- 断线重连后谁负责 reconcile catalog state 与 execution state
+- What is the minimal interface for the internal capability surface?
+- Is permission policy independent from the protocol client?
+- Is execution orchestration independent from the registry and the client?
+- Does the model/provider edge have a clear owner?
+- After disconnect and reconnect, who reconciles catalog state with execution state?
 
-## 7. 反模式检查
+## 7. Anti-pattern Checks
 
-至少逐项判断：
+Check at least:
 
-- registry 是否越权执行工具
-- client 是否越权做 permission 决策
-- execution 是否直接依赖外部协议对象
-- normalized state 是否同时覆盖静态 catalog 与运行态
-- reconnect/dedup/retry 是否没有单一 owner
-- provider fallback 与 provider reconnect 是否没有单一 owner
+- whether the registry is overreaching into execution
+- whether the client is overreaching into permission decisions
+- whether execution depends directly on external protocol objects
+- whether normalized state covers both static catalog and runtime state
+- whether reconnect/dedup/retry lacks a single owner
+- whether provider fallback and provider reconnect lack a single owner
 
-## 8. 下一步实现顺序
+## 8. Implementation Order
 
-建议顺序：
+Recommended order:
 
-1. 固定 internal capability surface
-2. 固定 tool registry metadata shape
-3. 固定 permission / policy owner
-4. 固定 protocol / provider client adapter 边界
-5. 固定 execution orchestration
-6. 最后再补 reconnect、dedup、state reconcile
+1. Fix the internal capability surface
+2. Fix the tool-registry metadata shape
+3. Fix the permission / policy owner
+4. Fix the protocol / provider-client adapter boundary
+5. Fix execution orchestration
+6. Add reconnect, dedup, and state reconciliation last
 
-如果结果后续会被 orchestrator 合并：
+If this result will later be merged by the orchestrator:
 
-- 显式写出所有 section，缺失项用 `N/A`
-- 为表格行保留 provenance
+- Emit every section explicitly and mark missing ones as `N/A`
+- Keep provenance for table rows

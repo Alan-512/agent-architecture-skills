@@ -2,52 +2,52 @@
 
 Use this template when `agent-surface-and-adapters` is active.
 
-## 1. 设计结论
+## 1. Design Conclusion
 
-- 用一句话定义 shared kernel 与 surface adapter 的关系。
-- 明确本轮只讨论 surface、session、transcript、output normalization，不重写 runtime 或 protocol owner。
+- Define the relationship between the shared kernel and surface adapters in one sentence.
+- Make it explicit that this pass only covers surfaces, session, transcript, and output normalization. Do not redefine runtime or protocol ownership.
 
-## 2. 模块职责表
+## 2. Responsibility Table
 
-至少包含这些模块：
+Include at least these modules:
 
-| 模块 | 主要职责 | 明确不负责 |
+| Module | Primary Responsibility | Explicitly Not Responsible For |
 | --- | --- | --- |
-| Shared Runtime Kernel | 提供与 surface 无关的核心执行能力 | session 持有、transcript 归档、展示协议 |
-| Input Adapter | 把 CLI/API/SDK/batch/remote 输入转成 kernel 可消费格式 | 定义 turn state machine |
-| Output Adapter | 把内核事件或结果投影成 surface 需要的协议 | 重新决定最终结果语义 |
-| Session Owner | 定义会话边界、恢复入口、用户可感知上下文 | task lifecycle |
-| Transcript Owner | 定义消息/事件归档边界与恢复范围 | permission policy |
+| Shared Runtime Kernel | Provide core execution capability independent of any surface | Session ownership, transcript archival, presentation protocols |
+| Input Adapter | Convert CLI/API/SDK/batch/remote input into a kernel-consumable format | Defining the turn state machine |
+| Output Adapter | Project kernel events or results into a surface-specific protocol | Redefining final-result semantics |
+| Session Owner | Define session boundaries, restore entrypoints, and user-visible context | Task lifecycle |
+| Transcript Owner | Define message/event archival boundaries and restore scope | Permission policy |
 
 ## 3. Surface Matrix
 
-至少列出在 scope 内的 surfaces：
+List at least the surfaces in scope:
 
-| Surface | 输入形式 | 输出形式 | Session 是否存在 | Transcript 如何归档 | 备注 |
+| Surface | Input Form | Output Form | Session Present | Transcript Archival | Notes |
 | --- | --- | --- | --- | --- | --- |
-| CLI | 终端输入/命令行参数 | 终端流式渲染 + 结构化结果 | 是/否 | 按 session 或 run 归档 |  |
-| API | HTTP/JSON/SSE/WebSocket | JSON + 流式事件 | 是/否 | 按 request 或 session 归档 |  |
-| Batch | 作业输入/任务队列 | 日志/落库/汇总结果 | 通常弱化 | 按 run 或 job 归档 |  |
+| CLI | terminal input / command-line args | terminal streaming plus structured result | yes/no | per session or run |  |
+| API | HTTP/JSON/SSE/WebSocket | JSON plus streaming events | yes/no | per request or session |  |
+| Batch | job input / task queue | logs / persistence / summarized result | usually weak | per run or job |  |
 
-## 4. 关键连接表
+## 4. Connection Table
 
-至少覆盖：
+Cover at least:
 
-| From | Relation | To | 含义 | 冲突风险 |
+| From | Relation | To | Meaning | Conflict Risk |
 | --- | --- | --- | --- | --- |
-| Input Adapter | normalizes_for | Shared Runtime Kernel | 各 surface 入口统一进入同一 kernel | high |
-| Shared Runtime Kernel | emits | Output Adapter | kernel 只产出中立事件或结果 | high |
-| Session Owner | scopes | Transcript Owner | transcript 归档边界可受 session 影响 | medium |
-| Output Adapter | projects | Surface | 输出协议由 surface 决定，不反向污染 kernel | medium |
+| Input Adapter | normalizes_for | Shared Runtime Kernel | All surface entrypoints converge into one kernel | high |
+| Shared Runtime Kernel | emits | Output Adapter | The kernel only emits neutral events or results | high |
+| Session Owner | scopes | Transcript Owner | Session may influence transcript archival boundaries | medium |
+| Output Adapter | projects | Surface | The surface decides the output protocol without contaminating the kernel | medium |
 
-## 5. 状态流或时序图
+## 5. Dynamic Flow
 
-优先输出：
+Preferred outputs:
 
-- `sequence`：surface -> adapter -> kernel -> adapter -> surface
-- `runtime-flow`：如果重点是流式输出与最终结果分流
+- `sequence`: surface -> adapter -> kernel -> adapter -> surface
+- `runtime-flow`: when the focus is splitting streaming output from final results
 
-最小链路建议：
+Suggested minimal path:
 
 - raw host input
 - adapter normalization
@@ -56,34 +56,34 @@ Use this template when `agent-surface-and-adapters` is active.
 - surface projection
 - final result envelope
 
-## 6. 设计约束
+## 6. Constraints
 
-至少回答：
+Answer at least:
 
-- 哪些状态由 surface 主导，而不是 runtime 主导
-- transcript 和 session 是否必须绑定，以及绑定边界在哪里
-- 新增一个 surface 时，kernel 需要不需要修改
+- Which states are owned by surfaces rather than runtime
+- Whether transcript and session must be bound, and where that boundary lives
+- Whether adding a new surface requires kernel changes
 
-## 7. 反模式检查
+## 7. Anti-pattern Checks
 
-至少逐项判断：
+Check at least:
 
-- 是否存在每个 surface 各写一套 runtime
-- 是否把 session / transcript / task 混成一个 store
-- 是否把 streaming 逻辑放进 kernel 业务决策
-- 是否把最终结果格式绑死在某一个 surface
+- whether each surface has its own runtime implementation
+- whether session / transcript / task have been collapsed into one store
+- whether streaming logic has been pushed into kernel business decisions
+- whether the final result format is coupled to one surface
 
-## 8. 下一步实现顺序
+## 8. Implementation Order
 
-建议顺序：
+Recommended order:
 
-1. 固定 shared kernel 接口
-2. 固定 session ownership
-3. 固定 transcript ownership
-4. 固定 neutral event 和 final result envelope
-5. 最后才写每个 surface adapter
+1. Fix the shared-kernel interface
+2. Fix session ownership
+3. Fix transcript ownership
+4. Fix the neutral event and final-result envelope
+5. Write each surface adapter last
 
-如果结果后续会被 orchestrator 合并：
+If this result will later be merged by the orchestrator:
 
-- 显式写出所有 section，缺失项用 `N/A`
-- 为表格行保留 provenance
+- Emit every section explicitly and mark missing ones as `N/A`
+- Keep provenance for table rows

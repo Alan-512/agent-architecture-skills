@@ -47,15 +47,15 @@ Never answer a cross-cutting request by improvising a new all-in-one architectur
 
 Always produce:
 
-- `设计结论`
-- `分层图`
-- `模块职责表`
-- `关键连接表`
-- `设计约束`
-- `反模式检查`
-- `下一步实现顺序`
+- `Design Conclusion`
+- `Layered Diagram`
+- `Responsibility Table`
+- `Connection Table`
+- `Constraints`
+- `Anti-pattern Checks`
+- `Implementation Order`
 
-Produce `状态流或时序图` only when a cross-domain interaction genuinely needs it. Produce `迁移/兼容/回滚方案` whenever the task is `review` or `refactor`.
+Produce `Dynamic Flow` only when a cross-domain interaction genuinely needs it. Produce `Migration / Compatibility / Rollback Plan` whenever the task is `review` or `refactor`.
 
 Use [routing-matrix.md](./references/routing-matrix.md) for dispatch, [output-contract.md](./references/output-contract.md) for merge rules, and [borderline-nouns.md](./references/borderline-nouns.md) for the most common ownership confusions.
 
@@ -82,14 +82,14 @@ When multiple domains remain active, stay in orchestrator mode and merge instead
 
 ## Trigger Examples
 
-- “帮我从零设计一个 agent 平台”
-- “这套 agent 系统怎么整体重构”
-- “CLI/API/batch、MCP 和多 agent 以后都要支持，先怎么设计”
-- “为什么我们的 agent 项目越做越乱，我想整体梳理架构”
+- “Help me design an agent platform from scratch”
+- “How should we refactor this agent system end to end?”
+- “We need CLI/API/batch, MCP, and multi-agent support. What should we design first?”
+- “Our agent project is getting messy. I want a whole-system architecture review.”
 
 ## Not-this-skill Examples
 
-- “单 agent 的 query loop 怎么写”
-- “session 和 transcript 应该归谁管”
-- “MCP 工具接进来后 registry 和 permission 怎么拆”
-- “manager-worker 的 task state 应该放哪”
+- “How should I design a single-agent query loop?”
+- “Who should own session and transcript state?”
+- “How should registry and permission be split once MCP tools are integrated?”
+- “Where should manager-worker task state live?”

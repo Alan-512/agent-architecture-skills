@@ -46,14 +46,14 @@ Never start from directory structure or helper functions. Start from state trans
 
 Always produce:
 
-- `设计结论`
-- `模块职责表`
-- `关键连接表`
-- `设计约束`
-- `反模式检查`
-- `下一步实现顺序`
+- `Design Conclusion`
+- `Responsibility Table`
+- `Connection Table`
+- `Constraints`
+- `Anti-pattern Checks`
+- `Implementation Order`
 
-Produce `状态流或时序图` for nearly all uses of this skill. Prefer a `state-machine` or `runtime-flow`.
+Produce `Dynamic Flow` for nearly all uses of this skill. Prefer a `state-machine` or `runtime-flow`.
 
 When this result may later be merged by `agent-architecture-orchestrator`, emit the canonical section envelope, mark non-applicable sections as explicit `N/A`, and keep row or object provenance for mergeable sections.
 
@@ -80,14 +80,14 @@ If any of these fail, the final result cannot be `pass`.
 
 ## Trigger Examples
 
-- “帮我设计 agent 的 query loop”
-- “tool result 应该怎么回灌到下一轮上下文”
-- “为什么我的单 agent runtime 越写越乱”
-- “stop / continue / retry 应该放在哪层”
+- “Help me design the query loop for an agent”
+- “How should tool results be reinjected into the next-turn context?”
+- “Why is my single-agent runtime getting more tangled over time?”
+- “Where should stop / continue / retry live?”
 
 ## Not-this-skill Examples
 
-- “CLI 和 API 怎么共用一套核心”
-- “MCP 工具接进来后怎么统一权限”
-- “manager-worker 多 agent 怎么拆”
-- “帮我设计整个 agent 平台架构”
+- “How should CLI and API share one kernel?”
+- “How should permission be unified once MCP tools are integrated?”
+- “How should a manager-worker multi-agent system be decomposed?”
+- “Help me design an entire agent platform architecture”

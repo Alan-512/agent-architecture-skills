@@ -46,14 +46,14 @@ Never invent a generic “application layer” to hide boundary confusion. Name 
 
 Always produce:
 
-- `设计结论`
-- `模块职责表`
-- `关键连接表`
-- `设计约束`
-- `反模式检查`
-- `下一步实现顺序`
+- `Design Conclusion`
+- `Responsibility Table`
+- `Connection Table`
+- `Constraints`
+- `Anti-pattern Checks`
+- `Implementation Order`
 
-Usually produce `分层图` and either a `sequence` or `runtime-flow` that shows surface-to-kernel adaptation. Use `状态流或时序图` only when it clarifies adapter handoff rather than re-explaining the runtime kernel.
+Usually produce `Layered Diagram` and either a `sequence` or `runtime-flow` that shows surface-to-kernel adaptation. Use `Dynamic Flow` only when it clarifies adapter handoff rather than re-explaining the runtime kernel.
 
 When this result may later be merged by `agent-architecture-orchestrator`, emit the canonical section envelope, mark non-applicable sections as explicit `N/A`, and keep row or object provenance for mergeable sections.
 
@@ -80,14 +80,14 @@ If any of these fail, the final result cannot be `pass`.
 
 ## Trigger Examples
 
-- “CLI、API 和 batch 怎么共用一套 agent 核心”
-- “session 和 transcript 应该归谁管”
-- “流式输出和最终结果应该怎么分层”
-- “为什么我们每个入口都复制了一遍 runtime 逻辑”
+- “How should CLI, API, and batch share one agent kernel?”
+- “Who should own session and transcript?”
+- “How should streaming output and final results be layered?”
+- “Why did we duplicate runtime logic in every entrypoint?”
 
 ## Not-this-skill Examples
 
-- “tool result 应该怎么回灌到下一轮”
-- “MCP 工具接进来后权限和重连怎么定”
-- “manager-worker 和 background task 怎么拆”
-- “帮我设计整个 agent 平台架构”
+- “How should a tool result be reinjected into the next turn?”
+- “How should permission and reconnect be designed once MCP tools are integrated?”
+- “How should manager-worker and background tasks be decomposed?”
+- “Help me design an entire agent platform architecture”

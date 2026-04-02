@@ -4,22 +4,22 @@ Use this checklist during design review or refactor review.
 
 ## Core Failures
 
-| 检查项 | 失败信号 | 修正方向 |
+| Check | Failure Signal | Correction Direction |
 | --- | --- | --- |
-| Normalization after model call | 先调模型，再拼消息或补上下文 | 把输入归一化前置到 turn 开始 |
-| Tool loop as sidecar | 工具执行在 runtime 外单独拼接 | 把 tool_use -> tool_result 变成 turn loop 分支 |
-| Turn-level recovery split across layers | stop/continue/recovery 分散在 adapter、runtime、tool wrapper | 由 runtime 定义统一 turn-level 策略 |
-| Runtime owns transcript | runtime 直接决定 transcript 持久化与归档 | 把 transcript ownership 交给 surface/adapters |
-| Runtime owns permission policy | runtime 自己判定工具权限与并发策略 | 由 protocol/tooling 层给出策略，runtime 只消费 |
-| Turn policy and execution policy conflated | runtime 同时定义 turn-level recovery 与 per-call timeout/retry | runtime 只定义 turn-level 规则，per-call policy 交给 protocol/tooling |
+| Normalization after model call | The model is called before messages or context are normalized | Move input normalization to the beginning of the turn |
+| Tool loop as sidecar | Tool execution is stitched on outside runtime | Turn `tool_use -> tool_result` into a branch of the turn loop |
+| Turn-level recovery split across layers | stop/continue/recovery is split across adapters, runtime, and tool wrappers | Let runtime define one turn-level policy |
+| Runtime owns transcript | Runtime directly decides transcript persistence and archival | Give transcript ownership to surface/adapters |
+| Runtime owns permission policy | Runtime decides tool permission and concurrency policy by itself | Let protocol/tooling provide policy; runtime only consumes it |
+| Turn policy and execution policy conflated | Runtime defines both turn-level recovery and per-call timeout/retry | Runtime only defines turn-level rules; per-call policy belongs to protocol/tooling |
 
 ## Review Prompts
 
 Use these prompts to pressure-test the design:
 
-- “如果工具执行失败，下一轮上下文由谁决定是否带上失败结果？”
-- “如果用户要求继续，continue 规则是谁定义的？”
-- “如果换一个 surface，runtime 需要改哪些行为？”
-- “如果 permission policy 变化，runtime 是否需要跟着重写？”
+- “If a tool call fails, who decides whether the failure result enters the next-turn context?”
+- “If the user asks to continue, who defines the continue rule?”
+- “If one surface is replaced with another, what behavior in runtime must change?”
+- “If permission policy changes, does runtime need to be rewritten?”
 
 If the answer shows runtime depends on UI protocol, transcript storage, or connector internals, the boundary is still wrong.
