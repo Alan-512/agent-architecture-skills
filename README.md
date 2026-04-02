@@ -123,6 +123,16 @@ This installs the plugin to `~/plugins/agent-architecture-skills` and creates or
 
 After installation, restart Codex so it can discover the new local plugin.
 
+### Remove The Local Codex Plugin
+
+```bash
+bash scripts/uninstall-plugin.sh
+```
+
+This removes `~/plugins/agent-architecture-skills` and deletes the plugin entry from `~/.agents/plugins/marketplace.json`.
+
+After removal, restart Codex so it unloads the local plugin.
+
 ## Manual Installation
 
 If you prefer to copy files yourself, copy the five folders inside `skills/` into one of:

@@ -114,6 +114,16 @@ bash scripts/install-plugin.sh
 
 安装完成后，需要重启 Codex 才能加载新的本地 plugin。
 
+### 卸载本地 Codex Plugin
+
+```bash
+bash scripts/uninstall-plugin.sh
+```
+
+这个脚本会删除 `~/plugins/agent-architecture-skills`，并从 `~/.agents/plugins/marketplace.json` 中移除对应的 plugin 条目。
+
+卸载完成后，需要重启 Codex 才能真正卸载这个本地 plugin。
+
 ## 手动安装
 
 如果你不想用脚本，也可以手动把 `skills/` 下面的 5 个目录复制到以下任一位置：
