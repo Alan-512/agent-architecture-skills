@@ -48,6 +48,14 @@ Go directly to a domain skill when the problem is clearly isolated:
 - tool registry / provider / protocol -> `agent-protocol-and-tooling`
 - manager-worker / swarm / background tasks -> `multi-agent-architecture`
 
+## Examples
+
+- `agent-architecture-orchestrator`: “Help me review the architecture of this agent platform end to end.”
+- `agent-runtime-architecture`: “How should tool results be reinjected into the next turn?”
+- `agent-surface-and-adapters`: “How should CLI and API share one agent kernel?”
+- `multi-agent-architecture`: “How should a manager-worker system split task state and worker lifecycle?”
+- `agent-protocol-and-tooling`: “Where should provider clients, permission, timeout, retry, and concurrency live?”
+
 ## Repository Layout
 
 ```text
