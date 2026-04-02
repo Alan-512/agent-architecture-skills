@@ -1,5 +1,7 @@
 # Agent Architecture Skills
 
+Chinese version: [README.zh-CN.md](./README.zh-CN.md)
+
 Reusable architecture skills for Codex and Claude Code when designing, reviewing, or refactoring agent systems.
 
 This repository packages a small, opinionated skill set distilled from Claude Code style agent architecture work. The focus is not “how to write one prompt”, but how to reason about agent systems with stable boundaries:
