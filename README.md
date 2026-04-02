@@ -1,6 +1,6 @@
 # Agent Architecture Skills
 
-Chinese version: [README.zh-CN.md](./README.zh-CN.md)
+Chinese version: [简体中文](./README.zh-CN.md)
 
 Reusable architecture skills for Codex and Claude Code when designing, reviewing, or refactoring agent systems.
 
