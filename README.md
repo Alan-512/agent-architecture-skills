@@ -56,6 +56,8 @@ Go directly to a domain skill when the problem is clearly isolated:
 - `multi-agent-architecture`: “How should a manager-worker system split task state and worker lifecycle?”
 - `agent-protocol-and-tooling`: “Where should provider clients, permission, timeout, retry, and concurrency live?”
 
+Longer reusable examples live in [examples/](./examples/README.md).
+
 ## Repository Layout
 
 ```text
@@ -63,6 +65,7 @@ agent-architecture-skills/
   .agents/plugins/marketplace.json
   README.md
   LICENSE
+  examples/
   plugins/
     agent-architecture-skills/
   scripts/

@@ -46,6 +46,16 @@
 - tool registry / provider / protocol -> `agent-protocol-and-tooling`
 - manager-worker / swarm / 后台任务 -> `multi-agent-architecture`
 
+## 示例
+
+- `agent-architecture-orchestrator`： “Help me review the architecture of this agent platform end to end.”
+- `agent-runtime-architecture`： “How should tool results be reinjected into the next turn?”
+- `agent-surface-and-adapters`： “How should CLI and API share one agent kernel?”
+- `multi-agent-architecture`： “How should a manager-worker system split task state and worker lifecycle?”
+- `agent-protocol-and-tooling`： “Where should provider clients, permission, timeout, retry, and concurrency live?”
+
+更完整、可复用的示例放在 [examples/](./examples/README.md)。
+
 ## 仓库结构
 
 ```text
@@ -54,6 +64,7 @@ agent-architecture-skills/
   README.md
   README.zh-CN.md
   LICENSE
+  examples/
   plugins/
     agent-architecture-skills/
   scripts/
