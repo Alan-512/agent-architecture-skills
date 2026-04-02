@@ -82,7 +82,7 @@ Each skill ships with its own `SKILL.md` and any supporting `references/` files 
 bash scripts/install.sh codex
 ```
 
-This copies the skills into `~/.codex/skills`.
+This copies the skills into `~/.agents/skills`.
 
 ### Claude Code global install
 
@@ -92,10 +92,18 @@ bash scripts/install.sh claude
 
 This copies the skills into `~/.claude/skills`.
 
-### Install into a project
+### Codex project install
 
 ```bash
-bash scripts/install.sh project /path/to/your/repo
+bash scripts/install.sh project-codex /path/to/your/repo
+```
+
+This copies the skills into `/path/to/your/repo/.agents/skills`.
+
+### Claude Code project install
+
+```bash
+bash scripts/install.sh project-claude /path/to/your/repo
 ```
 
 This copies the skills into `/path/to/your/repo/.claude/skills`.
@@ -104,9 +112,20 @@ This copies the skills into `/path/to/your/repo/.claude/skills`.
 
 If you prefer to copy files yourself, copy the five folders inside `skills/` into one of:
 
-- `~/.codex/skills`
+- `~/.agents/skills`
+- `<repo>/.agents/skills`
 - `~/.claude/skills`
 - `<repo>/.claude/skills`
+
+## Official Compatibility
+
+As of April 2, 2026:
+
+- Claude Code officially supports personal skills in `~/.claude/skills` and project skills in `.claude/skills`.
+- Codex officially documents user-level skills in `~/.agents/skills` and repo-level skills in `.agents/skills`.
+- OpenAI recommends direct skill folders for local authoring and repo-scoped workflows. For reusable public distribution in Codex, plugins are the preferred packaging model.
+
+This repository currently ships direct skill folders for portability and local installation. If you want first-class reusable distribution in Codex, package these skills as a plugin next.
 
 ## Design Principles
 

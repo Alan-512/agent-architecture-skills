@@ -73,7 +73,7 @@ agent-architecture-skills/
 bash scripts/install.sh codex
 ```
 
-这会把技能复制到 `~/.codex/skills`。
+这会把技能复制到 `~/.agents/skills`。
 
 ### 安装到 Claude Code 全局目录
 
@@ -83,10 +83,18 @@ bash scripts/install.sh claude
 
 这会把技能复制到 `~/.claude/skills`。
 
-### 安装到某个项目里
+### 安装到 Codex 项目里
 
 ```bash
-bash scripts/install.sh project /path/to/your/repo
+bash scripts/install.sh project-codex /path/to/your/repo
+```
+
+这会把技能复制到 `/path/to/your/repo/.agents/skills`。
+
+### 安装到 Claude Code 项目里
+
+```bash
+bash scripts/install.sh project-claude /path/to/your/repo
 ```
 
 这会把技能复制到 `/path/to/your/repo/.claude/skills`。
@@ -95,9 +103,20 @@ bash scripts/install.sh project /path/to/your/repo
 
 如果你不想用脚本，也可以手动把 `skills/` 下面的 5 个目录复制到以下任一位置：
 
-- `~/.codex/skills`
+- `~/.agents/skills`
+- `<repo>/.agents/skills`
 - `~/.claude/skills`
 - `<repo>/.claude/skills`
+
+## 官方兼容说明
+
+截至 2026-04-02：
+
+- Claude Code 官方技能目录仍然是 `~/.claude/skills` 和项目内 `.claude/skills`
+- Codex 官方文档使用的是 `~/.agents/skills` 和项目内 `.agents/skills`
+- OpenAI 对 Codex 的公开可复用分发，更推荐用 plugin；直接 skill 目录更适合本地创作和 repo 内使用
+
+这个仓库当前仍以“直接 skill 目录”方式分发，优先保证可复制、可本地安装、可在仓库内直接使用。如果后续要更贴近 Codex 官方推荐分发形态，下一步应该把它打包成 plugin。
 
 ## 设计原则
 

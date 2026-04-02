@@ -10,12 +10,14 @@ usage() {
 Usage:
   bash scripts/install.sh codex
   bash scripts/install.sh claude
-  bash scripts/install.sh project /path/to/repo
+  bash scripts/install.sh project-codex /path/to/repo
+  bash scripts/install.sh project-claude /path/to/repo
 
 Targets:
-  codex    Install into ~/.codex/skills
+  codex          Install into ~/.agents/skills
   claude   Install into ~/.claude/skills
-  project  Install into <repo>/.claude/skills
+  project-codex  Install into <repo>/.agents/skills
+  project-claude Install into <repo>/.claude/skills
 EOF
 }
 
@@ -26,12 +28,20 @@ fi
 
 case "$1" in
   codex)
-    TARGET_DIR="$HOME/.codex/skills"
+    TARGET_DIR="$HOME/.agents/skills"
     ;;
   claude)
     TARGET_DIR="$HOME/.claude/skills"
     ;;
-  project)
+  project-codex)
+    if [[ $# -lt 2 ]]; then
+      echo "Missing repository path for project install." >&2
+      usage
+      exit 1
+    fi
+    TARGET_DIR="$2/.agents/skills"
+    ;;
+  project-claude)
     if [[ $# -lt 2 ]]; then
       echo "Missing repository path for project install." >&2
       usage
