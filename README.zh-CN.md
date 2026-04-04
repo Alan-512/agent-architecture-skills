@@ -1,6 +1,6 @@
 # Agent Architecture Skills
 
-面向 Codex 和 Claude Code 的可复用 agent 架构 skill 集，用于设计、审查和重构 agent 系统。
+一组可复用的 agent 架构 skill，用于设计、审查和重构 agent 系统。
 
 这个仓库提供的不是某个固定框架脚手架，而是一组可组合的架构 skill。重点不在“怎么写一个 prompt”，而在于如何用稳定的边界去思考 agent 系统：
 
@@ -39,6 +39,8 @@
 - 需求跨越多个架构域
 - 你还不确定问题到底该由哪个 skill 负责
 - 你希望拿到一份收口后的整体架构结论
+
+`agent-architecture-orchestrator` 现在也内置了一个架构评审 gate，并提供完整的 review checklist 引用。它是一个通用评审框架，不是固定组件清单；在给跨域方案下 `pass` 结论前可用它做收口检查。
 
 如果问题已经很明确地落在单一子域，可以直接调用对应 skill：
 

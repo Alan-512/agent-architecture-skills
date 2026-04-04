@@ -79,6 +79,28 @@ For `review` and `refactor`, explicitly force these cross-domain decisions into 
 
 Use [routing-matrix.md](./references/routing-matrix.md) for dispatch, [output-contract.md](./references/output-contract.md) for merge rules, and [borderline-nouns.md](./references/borderline-nouns.md) for the most common ownership confusions.
 
+## Architecture Review Gate
+
+Use this gate before declaring a cross-domain design `pass`. Keep the answer concise, but do not skip the questions.
+
+Always force explicit answers for:
+
+- What is the single execution truth source?
+- What is the write model, and who is the single mutation owner?
+- Is tool execution part of the runtime turn loop, including result reinjection?
+- What role does transcript play: projection, audit log, domain state, or another explicitly named role?
+- Who owns permission and approval policy?
+- Are cancel, resume, retry, continue, and resolve-action paths formal contracts instead of loose callbacks?
+- Is the recommended architecture proportional to the current product stage and operating model?
+
+When the proposal includes optional capabilities such as multi-agent orchestration, long-term memory, approval flows, multiple surfaces, replayable event logs, or a skill layer, force explicit justification for why each capability exists now, what boundary it owns, and what would break if it were removed.
+
+Mark optional-capability questions as `n/a` when the design intentionally does not include that capability. Do not treat omission as a defect unless the stated product scope actually requires it.
+
+If any core answer is missing or ambiguous, the result cannot be stronger than `pass with risks`.
+
+Use [agent-architecture-review-checklist.md](./references/agent-architecture-review-checklist.md) for the full review template, including required questions, suggested questions, veto conditions, and final verdict framing.
+
 ## Anti-pattern Checks
 
 At minimum, check for these failures:

@@ -2,9 +2,9 @@
 
 Chinese version: [简体中文](./README.zh-CN.md)
 
-Reusable architecture skills for Codex and Claude Code when designing, reviewing, or refactoring agent systems.
+Reusable architecture skills for designing, reviewing, or refactoring agent systems.
 
-This repository packages a small, opinionated skill set distilled from Claude Code style agent architecture work. The focus is not “how to write one prompt”, but how to reason about agent systems with stable boundaries:
+This repository packages a small, opinionated skill set for reasoning about agent systems with stable boundaries. The focus is not “how to write one prompt”, but how to design and review agent systems with explicit ownership:
 
 - runtime kernel vs adapters
 - protocol/tooling vs orchestration
@@ -41,6 +41,8 @@ Start with `agent-architecture-orchestrator` when:
 - the request spans more than one domain
 - you are not sure which skill should own the problem
 - you want one merged architecture conclusion
+
+The orchestrator also includes an architecture review gate plus a full review checklist reference for validating cross-domain proposals as a general review framework, not as a fixed component inventory.
 
 Go directly to a domain skill when the problem is clearly isolated:
 
